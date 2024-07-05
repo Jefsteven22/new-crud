@@ -6,6 +6,7 @@ import User from "./models/users.model.js";
 import Role from "./models/roles.model.js";
 import "dotenv/config";
 import userRoutes from "./modules/users/user.routes.js";
+import { apiv1Routes } from "./routes/apiv1.reoutes.js";
 
 const app = express();
 const PORT = process.env.PORT ?? 8000;
@@ -27,7 +28,8 @@ db.sync()
 app.use(cors(), morgan("tiny"), express.json());
 
 //* routes
-app.use(userRoutes);
+apiv1Routes(app);
+// app.use(userRoutes);
 
 //* health check
 app.get("/", (req, res) => {

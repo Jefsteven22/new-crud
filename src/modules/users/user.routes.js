@@ -11,16 +11,13 @@ import { authenticate, isAdmin } from "../../middlewares/auth.middleware.js";
 
 const router = Router();
 
+router.route("/").post(registerUser).get(authenticate, isAdmin, getAllUsers);
 router
-  .route("/users")
-  .post(registerUser)
-  .get(authenticate, isAdmin, getAllUsers);
-router
-  .route("/users/:id")
+  .route("/:id")
   .get(authenticate, getUserById)
   .patch(authenticate, UpdateInfoUser)
   .delete(authenticate, deleteUser);
 
-router.route("/users/login").post(loginUser);
+router.route("/login").post(loginUser);
 
 export default router;
