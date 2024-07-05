@@ -4,5 +4,343 @@
     "title": "CRUD Login",
     "descripion": "This is an API to make a crud with login",
     "version": "1.0.0"
-  }
+  },
+  "servers": [
+    {
+      "url": "https://new-crud-ly68.onrender.com/api/v1",
+      "variables": {}
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Misc"],
+        "summary": "Register",
+        "operationId": "Register",
+        "parameters": [],
+        "requestBody": {
+          "description": "only the email and password values ​​are mandatory, the rest can be null. roleId = 1 is user and roleId = 2 is admin",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RegisterRequest"
+                  },
+                  {
+                    "example": {
+                      "name": "Username3",
+                      "lastname": "UserLastname3",
+                      "password": "123456",
+                      "email": "user3@mail.com",
+                      "gender": "other",
+                      "avatar": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+                      "roleId": 2
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "name": "Username3",
+                "lastname": "UserLastname3",
+                "password": "123456",
+                "email": "user3@mail.com",
+                "gender": "other",
+                "avatar": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+                "roleId": 2
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "get": {
+        "tags": ["Misc"],
+        "summary": "Get All Users",
+        "operationId": "GetAllUsers",
+        "description": "Only users who are admin can make this request",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "responds an object with all the users and their information",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["Misc"],
+        "summary": "Login",
+        "operationId": "Login",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/LoginRequest"
+                  },
+                  {
+                    "example": {
+                      "password": "123456",
+                      "email": "user3@mail.com"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "password": "123456",
+                "email": "user3@mail.com"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "an object responds with the user's information and token",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": ["Misc"],
+        "summary": "Get User By Id",
+        "operationId": "GetUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "brings the user information with the indicated id",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": ["Misc"],
+        "summary": "Update User by Id",
+        "operationId": "UpdateUserbyId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "you can modify any value of the user indicated by id (name, lastname, email, password, avatar(only url), gender and roleId)",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdateUserbyIdRequest"
+                  },
+                  {
+                    "example": {
+                      "name": "Example1"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "name": "Example1"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["Misc"],
+        "summary": "Delete User by Id",
+        "operationId": "DeleteUserbyId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegisterRequest": {
+        "title": "RegisterRequest",
+        "required": ["password", "email"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "roleId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": {
+          "name": "Username3",
+          "lastname": "UserLastname3",
+          "password": "123456",
+          "email": "user3@mail.com",
+          "gender": "other",
+          "avatar": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+          "roleId": 2
+        }
+      },
+      "LoginRequest": {
+        "title": "LoginRequest",
+        "required": ["password", "email"],
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "password": "123456",
+          "email": "user3@mail.com"
+        }
+      },
+      "UpdateUserbyIdRequest": {
+        "title": "UpdateUserbyIdRequest",
+        "required": [],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "roleId": {
+            "type": "integer"
+          }
+        },
+        "example": {
+          "name": "Example1"
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "Misc",
+      "description": ""
+    }
+  ]
 }
