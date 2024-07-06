@@ -95,7 +95,11 @@ export const UpdateInfoUser = async (req, res) => {
   try {
     const { id } = req.params;
     const { body } = req;
-    const userById = await User.findByPk(id);
+    const userById = await User.findByPk(id, {
+      attributes: {
+        exclude: ["password"],
+      },
+    });
 
     //* check if 'user' exists
     if (!userById) {
@@ -121,7 +125,7 @@ export const UpdateInfoUser = async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      UpdateData: body,
+      UpdateData: userById,
       message: "THE USER HAS BEEN UPDATE",
     });
   } catch (error) {
