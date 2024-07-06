@@ -26,6 +26,14 @@ export const registerUser = async (req, res) => {
       }
     }
 
+    //* check if the 'body' matches the model
+    const whiteList = Object.keys(User.getAttributes());
+    for (const key in newUser) {
+      if (!whiteList.includes(key)) {
+        throw new Error(`Invalid attribute '${key}' in the body`);
+      }
+    }
+
     await User.create(newUser);
 
     const copyUser = { ...newUser };
