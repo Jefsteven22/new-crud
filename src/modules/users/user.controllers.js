@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import User from "../../models/users.model.js";
 import Role from "../../models/roles.model.js";
+import { where } from "sequelize";
 
 export const registerUser = async (req, res) => {
   try {
@@ -185,6 +186,32 @@ export const loginUser = async (req, res) => {
     copyUser.token = token;
 
     res.status(200).json(copyUser);
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+};
+
+export const recoverPassword = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const userByEmail = await User.findOne({
+      where: { email },
+    });
+
+    //* verify email
+    if (!userByEmail) {
+      console.log(userByEmail);
+      throw new Error(`the user with the email '${email}' does not exist`);
+    }
+
+    await User.update(password, { where: { email } });
+    res.status(200).json({
+      status: "success",
+      message: "password updated successfully",
+    });
   } catch (error) {
     res.status(400).json({
       status: "error",

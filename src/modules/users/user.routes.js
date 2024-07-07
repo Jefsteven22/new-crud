@@ -5,6 +5,7 @@ import {
   getAllUsers,
   getUserById,
   loginUser,
+  recoverPassword,
   registerUser,
 } from "./user.controllers.js";
 import { authenticate, isAdmin } from "../../middlewares/auth.middleware.js";
@@ -19,5 +20,6 @@ router
   .delete(authenticate, deleteUser);
 
 router.route("/login").post(loginUser);
+router.route("/recover").post(recoverPassword);
 
 export default router;
