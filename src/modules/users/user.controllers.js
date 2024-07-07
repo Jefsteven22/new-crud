@@ -201,6 +201,14 @@ export const recoverPassword = async (req, res) => {
       where: { email },
     });
 
+    //* check if the 'body' matches
+    const whiteList = ["email", "password"];
+    for (const key in req.body) {
+      if (!whiteList.includes(key)) {
+        throw new Error(`Invalid attribute '${key}' in the body`);
+      }
+    }
+
     //* verify email
     if (!userByEmail) {
       console.log(userByEmail);

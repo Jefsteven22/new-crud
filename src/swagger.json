@@ -238,6 +238,52 @@
           }
         ]
       }
+    },
+    "/recover": {
+      "post": {
+        "tags": ["Misc"],
+        "summary": "Recover Password",
+        "operationId": "RecoverPassword",
+        "parameters": [],
+        "requestBody": {
+          "description": "To recover the password, you must send the user's email and new password through the body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RecoverPasswordRequest"
+                  },
+                  {
+                    "example": {
+                      "email": "user@mail.com",
+                      "password": "123456"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "email": "user@mail.com",
+                "password": "123456"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "servers": [
+          {
+            "url": "http://localhost:8000/api/v1/users",
+            "variables": {}
+          }
+        ]
+      }
     }
   },
   "components": {
